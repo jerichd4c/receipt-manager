@@ -45,7 +45,7 @@ def preprocess_new_receipt(file_path):
         # send back the new receipt ID
         email_data = {
             "provider": new_receipt.provider,
-            "receipt_no": new_receipt.invoice_number,
+            "invoice_number": new_receipt.invoice_number,
             "date": new_receipt.issue_date,
             "monto_total": str(new_receipt.total_amount)
         }

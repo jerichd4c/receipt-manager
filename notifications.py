@@ -6,8 +6,8 @@ from email.mime.multipart import MIMEMultipart
 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SENDER_EMAIL = "your_mail@gmail.com"
-SENDER_PASSWORD = "your_app_password" # Note: not your regular password
+SENDER_EMAIL = "sample@example.com"
+SENDER_PASSWORD = "yourpassword " # Note: not your regular password
 
 def generate_receipt_html(receipt_data, receipt_id):
 
@@ -19,7 +19,7 @@ def generate_receipt_html(receipt_data, receipt_id):
     # API links for actions
     # Note: in real deployment, use actual domain instead of localhost
     approve_link = f"http://localhost:8000/api/approve/{receipt_id}"
-    reject_link = f"http://localhost:8000/api/reject_form/{receipt_id}" # leads to a form
+    reject_link = f"http://localhost:8000/reject_form/{receipt_id}" # leads to a form
 
     html = f"""
     <html>
@@ -40,7 +40,7 @@ def generate_receipt_html(receipt_data, receipt_id):
                         <td style="padding: 10px; border: 1px solid #ddd;">{receipt_data.get('provider', 'N/A')}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Receipt No.:</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Receipt No:</strong></td>
                         <td style="padding: 10px; border: 1px solid #ddd;">{receipt_data.get('receipt_no', 'N/A')}</td>
                     </tr>
                     <tr style="background-color: #f2f2f2;">
@@ -112,4 +112,4 @@ if __name__ == "__main__":
         "total_amount": "1,250.75"
     }
 
-    send_notification("recipient@example.com", sample_receipt, 1)
+    send_notification("sample@example.com", sample_receipt, 1)
