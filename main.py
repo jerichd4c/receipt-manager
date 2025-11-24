@@ -68,7 +68,7 @@ async def upload_receipt(file: UploadFile = File(...), db: Session = Depends(get
         # 5. send notificacion by email
         # here it sends the link pointing to THIS API endpoint
         # Note: in production, use environment variables for email addresses
-        send_notification("sample@example.com", data, new_receipt.id)
+        send_notification(os.getenv("MANAGER_EMAIL"), data, new_receipt.id)
 
         return {"message": "Receipt uploaded successfully", "id": new_receipt.id, "extracted_data": data}
 
