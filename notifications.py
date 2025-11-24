@@ -2,6 +2,10 @@ import smtplib
 import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv
+
+# load environment variables from .env file
+load_dotenv()
 
 # config server 
 

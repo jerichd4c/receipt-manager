@@ -2,6 +2,10 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, 
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+
+# load environment variables from .env file
+load_dotenv()
 
 # database setup
 DATABASE_URL = os.getenv("DATABASE_URL")
