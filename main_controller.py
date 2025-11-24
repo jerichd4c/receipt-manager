@@ -1,6 +1,7 @@
 from ocr_engine import pre_process_image, extract_text, analize_receipt
 from database import SessionLocal, Receipt, HistoryStatus, create_tables
 from notifications import send_notification
+import os
 
 def preprocess_new_receipt(file_path):
     """Pre-process a new receipt image and extract structured data."""
@@ -50,10 +51,8 @@ def preprocess_new_receipt(file_path):
             "monto_total": str(new_receipt.total_amount)
         }
 
-        # define who recieve the notification (do later with environment variables)
-
-        MANAGER_EMAIL = "manager@example.com"
-        send_notification(MANAGER_EMAIL, email_data, new_receipt.id)
+        # define who recieve the notification
+        send_notification(os.getenv("MANAGER_EMAIL"), email_data, new_receipt.id)
 
         return new_receipt.id
     

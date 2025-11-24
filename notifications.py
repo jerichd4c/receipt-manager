@@ -1,13 +1,15 @@
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # config server 
 
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 587
-SENDER_EMAIL = "sample@example.com"
-SENDER_PASSWORD = "yourpassword " # Note: not your regular password
+SMTP_SERVER = os.getenv("SMTP_SERVER")
+SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD") # Note: not your regular password
+API_URL = os.getenv("API_URL")
 
 def generate_receipt_html(receipt_data, receipt_id):
 
@@ -18,8 +20,8 @@ def generate_receipt_html(receipt_data, receipt_id):
 
     # API links for actions
     # Note: in real deployment, use actual domain instead of localhost
-    approve_link = f"http://localhost:8000/api/approve/{receipt_id}"
-    reject_link = f"http://localhost:8000/reject_form/{receipt_id}" # leads to a form
+    approve_link = f"{API_URL}/api/approve/{receipt_id}"
+    reject_link = f"{API_URL}/reject_form/{receipt_id}" # leads to a form
 
     html = f"""
     <html>
@@ -112,4 +114,4 @@ if __name__ == "__main__":
         "total_amount": "1,250.75"
     }
 
-    send_notification("sample@example.com", sample_receipt, 1)
+    send_notification(os.getenv("SENDER_EMAIL"), sample_receipt, 1)

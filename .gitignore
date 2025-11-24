@@ -1,0 +1,21 @@
+# Secret files
+.env
+
+# Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local DB files (dont overwrite)
+*.db
+facturas.db
+
+# User Files (uploads)
+uploads/
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
