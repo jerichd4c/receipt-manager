@@ -26,7 +26,7 @@ def extract_text(processed_image):
 def analize_receipt(raw_text):
     """
     Applies RegEx (Regular expressions) to find specific fields.
-    obligatory fields:[cite: 15].
+    obligatory fields:
     """
 
     data = {
@@ -37,17 +37,17 @@ def analize_receipt(raw_text):
         "taxes": None
     }
 
-    # 1. find date in format DD/MM/YYYY or DD-MM-YYYY [cite: 18]
+    # 1. find date in format DD/MM/YYYY or DD-MM-YYYY 
     match_fecha = re.search(r'(\d{2}[/-]\d{2}[/-]\d{4})|(\d{4}[/-]\d{2}[/-]\d{2})', raw_text)
     if match_fecha:
         data["issue_date"] = match_fecha.group(0)
 
-    # 2. find Invoice Number (Patterns like 'Factura N° 123' or 'No. 12345') [cite: 17]
+    # 2. find Invoice Number (Patterns like 'Factura N° 123' or 'No. 12345') 
     match_invoice = re.search(r'(Factura|No\.|N°)\s*[:#]?\s*([A-Z0-9-]+)', raw_text, re.IGNORECASE)
     if match_invoice:
         data["invoice_number"] = match_invoice.group(2)
 
-    # 3. find Amounts (Searches for numbers with decimals and currency symbols) [cite: 19, 20]
+    # 3. find Amounts (Searches for numbers with decimals and currency symbols) 
     # this regex looks for "Total" followed by digits and decimals
     match_total = re.search(r'(Total|Monto|Pagar).*?(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2}))', raw_text, re.IGNORECASE)
     if match_total:
@@ -57,7 +57,7 @@ def analize_receipt(raw_text):
     # if it is not empty, or look for keywords like "S.A.", "C.A.", "Ltda".
     lines = [line for line in raw_text.split('\n') if line.strip()]
     if lines:
-        data["provider"] = lines[0] # Assumes the header is the name [cite: 16]
+        data["provider"] = lines[0] # Assumes the header is the name
 
     return data
 

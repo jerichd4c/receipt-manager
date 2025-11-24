@@ -20,11 +20,11 @@ class Receipt(Base):
     id = Column(Integer, primary_key=True, index=True)
     
     # extracted fields from OCR 
-    provider = Column(String, nullable=True)       # [cite: 16]
-    invoice_number = Column(String, nullable=True)  # [cite: 17]
-    issue_date = Column(String, nullable=True)   # [cite: 18]
-    total_amount = Column(Float, nullable=True)      # [cite: 19]
-    taxes = Column(Float, nullable=True)        # [cite: 20]
+    provider = Column(String, nullable=True)      
+    invoice_number = Column(String, nullable=True)  
+    issue_date = Column(String, nullable=True)   
+    total_amount = Column(Float, nullable=True)      
+    taxes = Column(Float, nullable=True)        
 
     # system metadata
 
