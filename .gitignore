@@ -9,7 +9,7 @@ __pycache__/
 
 # Local DB files (dont overwrite)
 *.db
-facturas.db
+receipts.db
 
 # User Files (uploads)
 uploads/
