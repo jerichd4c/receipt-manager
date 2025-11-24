@@ -1,0 +1,19 @@
+# Framework Web and API
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database and ORM
+sqlalchemy
+
+# Image Processing and OCR 
+pytesseract
+opencv-python
+numpy
+
+# Environment Variables and Configuration
+python-dotenv
+
+# Optional (Recommended for the future)
+# pdf2image  <-- Uncomment if you plan to process PDFs in addition to images
+# requests   <-- Useful if you do tests from external scripts
