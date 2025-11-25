@@ -47,11 +47,11 @@ def generate_receipt_html(receipt_data, receipt_id):
                     </tr>
                     <tr>
                         <td style="padding: 10px; border: 1px solid #ddd;"><strong>Receipt No:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">{receipt_data.get('receipt_no', 'N/A')}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{receipt_data.get('invoice_number', 'N/A')}</td>
                     </tr>
                     <tr style="background-color: #f2f2f2;">
                         <td style="padding: 10px; border: 1px solid #ddd;"><strong>Date:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">{receipt_data.get('date', 'N/A')}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{receipt_data.get('issue_date', 'N/A')}</td>
                     </tr>
                     <tr>
                         <td style="padding: 10px; border: 1px solid #ddd;"><strong>Total:</strong></td>
