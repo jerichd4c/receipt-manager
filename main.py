@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Depends, HTTPException, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from sqlalchemy.orm import Session
 import shutil
 import os
@@ -15,6 +15,11 @@ from notifications import send_notification
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Smart Receipt Processor")
+
+# default root message
+@app.get("/", response_class=PlainTextResponse)
+async def root():
+    return "API is running. Go to /docs to see the implementation."
 
 # DB depedendency
 

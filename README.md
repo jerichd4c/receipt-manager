@@ -58,22 +58,36 @@ El proyecto utiliza `python-dotenv` para la seguridad. Crea un archivo `.env` en
 
 ## Puesta en marcha rápida 🚀
 
-1.  **Iniciar el Servidor:**
-    Ejecuta el siguiente comando para levantar la API:
+1.  **Iniciar el servidor (modo sencillo):**
+  Ejecuta el script preparado para levantar la API sin escribir comandos:
 
-    ```powershell
-    uvicorn main:app --reload
-    ```
+  ```powershell
+  python run.py
+  ```
 
-2.  **Acceder a la Interfaz:**
-    Abre tu navegador en `http://127.0.0.1:8000/docs`. Verás la interfaz automática (Swagger UI) para probar los endpoints.
+  Al abrirse el navegador en la raíz (`/`), verás un mensaje tipo:
 
-3.  **Probar el Flujo:**
+  ```text
+  API is running. Go to /docs to see the implementation.
+  ```
 
-      - Usa el endpoint `POST /api/upload` para subir una imagen de factura.
-      - Revisa la consola para ver la extracción de datos.
-      - Revisa tu correo: deberías recibir una notificación con botones.
-      - Haz clic en "Aprobar" o "Rechazar" en el correo y verifica el cambio en la base de datos.
+  Desde ahí, navega manualmente a `/docs`.
+
+2.  **Iniciar el servidor (modo clásico con uvicorn):**
+
+  ```powershell
+  uvicorn main:app --reload
+  ```
+
+3.  **Acceder a la interfaz:**
+  Abre tu navegador en `http://127.0.0.1:8000/docs` (o el puerto configurado en `run.py`). Verás la interfaz automática (Swagger UI) para probar los endpoints.
+
+4.  **Probar el flujo completo:**
+
+    - Usa el endpoint `POST /api/upload` para subir una imagen de factura.
+    - Revisa la consola para ver la extracción de datos.
+    - Revisa tu correo: deberías recibir una notificación con botones.
+    - Haz clic en "Aprobar" o "Rechazar" en el correo y verifica el cambio en la base de datos.
 
 -----
 
@@ -97,6 +111,7 @@ receipt-manager/
 ├── .env                        # Credenciales (NO subir a Git)
 ├── database.py                 # Modelos ORM y conexión a SQLite
 ├── main.py                     # API FastAPI y orquestador del flujo
+├── run.py                      # Script para levantar la API con `python run.py`
 ├── notifications.py            # Motor de envío de correos HTML
 ├── ocr_engine.py               # Lógica de Visión Computacional y NLP
 ├── requirements.txt            # Lista de dependencias del proyecto
