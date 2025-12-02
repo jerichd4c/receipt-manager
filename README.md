@@ -1,8 +1,8 @@
 # Sistema Inteligente de Gestión de Facturas 🧾
 
-Aplicación de IA y automatización que procesa facturas digitales, extrae datos clave mediante OCR, gestiona estados en base de datos y coordina flujos de aprobación mediante correos electrónicos interactivos.
+Aplicación de IA y automatización que procesa facturas digitales (imágenes y PDFs), extrae datos clave mediante OCR, gestiona estados en base de datos y coordina flujos de aprobación mediante correos electrónicos interactivos.
 
-  - **Procesamiento Inteligente:** Extracción de texto e identificación de campos (Monto, Fecha, Proveedor) usando Tesseract OCR y RegEx.
+  - **Procesamiento Inteligente:** Extracción de texto desde imágenes y PDFs e identificación de campos (Monto, Fecha, Proveedor) usando Tesseract OCR y RegEx.
   - **Gestión de Estados:** Base de datos SQLite para trazar el ciclo de vida ("En Proceso" → "Aprobado" / "Rechazado").
   - **Notificaciones Interactivas:** Envío de correos HTML con botones funcionales para aprobar o rechazar facturas directamente.
   - **API RESTful:** Backend construido con FastAPI para subir archivos y manejar Webhooks de decisión.
@@ -15,6 +15,7 @@ Aplicación de IA y automatización que procesa facturas digitales, extrae datos
   - **Python 3.8** o superior.
   - **Tesseract OCR:** Debe estar instalado en el sistema operativo (no solo la librería de Python).
       - *Windows:* [Descargar instalador aquí](https://www.google.com/search?q=https://github.com/UB-Mannheim/tesseract/wiki). **Importante:** Durante la instalación, seleccionar el idioma "Spanish" (spa) en "Additional script data".
+  - **Poppler para Windows:** Requerido para convertir PDFs a imágenes (usado por `pdf2image`). Descarga una distribución para Windows y asegúrate de que la ruta coincida con `POPPLER_PATH` en `ocr_engine.py`.
   - **Cuenta de Gmail:** Con "Contraseña de Aplicación" generada (para el envío de correos).
   - **Navegador Web:** Para interactuar con la documentación automática de la API.
 
@@ -93,8 +94,8 @@ El proyecto utiliza `python-dotenv` para la seguridad. Crea un archivo `.env` en
 
 ## Flujo de trabajo 🧭
 
-1.  **Ingesta:** El usuario sube una imagen (`.png`, `.jpg`) a través de la API (`main.py`).
-2.  **Procesamiento (Módulo 1):** `ocr_engine.py` limpia la imagen con OpenCV y extrae texto con Tesseract. RegEx identifica los montos y fechas.
+1.  **Ingesta:** El usuario sube un archivo (`.png`, `.jpg` o `.pdf`) a través de la API (`main.py`).
+2.  **Procesamiento (Módulo 1):** `ocr_engine.py` detecta si el archivo es imagen o PDF, convierte PDFs a imagen con `pdf2image` + Poppler, limpia la imagen con OpenCV y extrae texto con Tesseract. RegEx identifica los montos y fechas.
 3.  **Persistencia (Módulo 2):** Se guarda la factura en `facturas.db` con estado "En Proceso" (`database.py`).
 4.  **Notificación (Módulo 3):** `notifications.py` genera un email HTML con los datos y enlaces únicos hacia la API.
 5.  **Decisión (Módulo 4):** El usuario hace clic en el correo. La API recibe la señal (Webhook), actualiza el estado y registra la auditoría.
@@ -113,7 +114,7 @@ receipt-manager/
 ├── main.py                     # API FastAPI y orquestador del flujo
 ├── run.py                      # Script para levantar la API con `python run.py`
 ├── notifications.py            # Motor de envío de correos HTML
-├── ocr_engine.py               # Lógica de Visión Computacional y NLP
+├── ocr_engine.py               # Lógica de Visión Computacional, soporte PDF y NLP
 ├── requirements.txt            # Lista de dependencias del proyecto
 └── facturas.db                 # Base de datos local (generada automáticamente)
 ```
