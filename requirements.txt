@@ -14,6 +14,6 @@ numpy
 # Environment Variables and Configuration
 python-dotenv
 
-# Optional (Recommended for the future)
-# pdf2image  <-- Uncomment if you plan to process PDFs in addition to images
+# Convert PDF to image
+pdf2image  
 # requests   <-- Useful if you do tests from external scripts

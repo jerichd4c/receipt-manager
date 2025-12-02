@@ -2,16 +2,55 @@ import cv2
 import pytesseract
 import re
 from datetime import datetime
+import numpy as np
+from pdf2image import convert_from_path
+import os
+
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-def pre_process_image(image_path):
-    """Pre-process the image for better OCR results."""
+POPPLER_PATH = r'C:\Program Files\poppler-25.11.0\Library\bin'
 
-    # load image
-    image = cv2.imread(image_path)
+def convert_pdf_to_image(pdf_path):
+    # convert the PDF to an image compatible with OpenCV
+    
+        try:
+            # convert PDF to list of images
+            pages = convert_from_path(pdf_path, dpi=300, poppler_path=POPPLER_PATH)
+
+            if not pages:
+                raise Exception("No pages found in PDF.")
+            
+            # take only the first page for OCR
+            first_page = pages[0]
+
+            # convert PIL format (pdf2image) to numpy array (OpenCV)
+            image_numpy = np.array(first_page)
+            image_opencv = cv2.cvtColor(image_numpy, cv2.COLOR_RGB2BGR)
+
+            return image_opencv
+        except Exception as e:
+            print(f"Error converting PDF to image: {e}")
+            return None
+
+def pre_process_image(image_path):
+    """Detect if its PDF or image for OCR processing."""
+
+    # 1. check file extension
+    ext = os.path.splitext(image_path)[1].lower()
+
+    img = None
+
+    if ext == ".pdf":
+        print("PDF detected, converting to image...")
+        img = convert_pdf_to_image(image_path)
+    else:
+        img = cv2.imread(image_path)
+    if img is None:
+        raise ValueError("Could not load image. Check the file path and format.")
+
     # 1. convert to grayscale
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # 2. apply binary thresholding
     text_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
     return text_img
