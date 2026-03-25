@@ -1,143 +1,139 @@
-# Sistema Inteligente de Gestión de Facturas 🧾
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a id="readme-top"></a>
 
-Aplicación de IA y automatización que procesa facturas digitales (imágenes y PDFs), extrae datos clave mediante OCR, gestiona estados en base de datos y coordina flujos de aprobación mediante correos electrónicos interactivos.
+<h3 align="center">Intelligent Receipt Management System 🧾</h3>
 
-  - **Procesamiento Inteligente:** Extracción de texto desde imágenes y PDFs e identificación de campos (Monto, Fecha, Proveedor) usando Tesseract OCR y RegEx.
-  - **Gestión de Estados:** Base de datos SQLite para trazar el ciclo de vida ("En Proceso" → "Aprobado" / "Rechazado").
-  - **Notificaciones Interactivas:** Envío de correos HTML con botones funcionales para aprobar o rechazar facturas directamente.
-  - **API RESTful:** Backend construido con FastAPI para subir archivos y manejar Webhooks de decisión.
-  - **Auditoría:** Registro automático de timestamps y comentarios de justificación.
+  <p align="center">
+    AI and automation application that processes digital receipts (images and PDFs), extracts key data via OCR, manages states in a database, and coordinates approval flows through interactive emails.
+  </p>
 
------
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-## Requisitos previos ⚙️
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-  - **Python 3.8** o superior.
-  - **Tesseract OCR:** Debe estar instalado en el sistema operativo (no solo la librería de Python).
-      - *Windows:* [Descargar instalador aquí](https://www.google.com/search?q=https://github.com/UB-Mannheim/tesseract/wiki). **Importante:** Durante la instalación, seleccionar el idioma "Spanish" (spa) en "Additional script data".
-  - **Poppler para Windows:** Requerido para convertir PDFs a imágenes (usado por `pdf2image`). Descarga una distribución para Windows y asegúrate de que la ruta coincida con `POPPLER_PATH` en `ocr_engine.py`.
-  - **Cuenta de Gmail:** Con "Contraseña de Aplicación" generada (para el envío de correos).
-  - **Navegador Web:** Para interactuar con la documentación automática de la API.
+This application automates receipt processing and approval using modern Computer Vision and AI technologies. It facilitates the receipt lifecycle from reception to final resolution.
 
-Dependencias de Python se instalan desde `requirements.txt`.
+**Key Features:**
+- **Intelligent Processing:** Text extraction from images and PDFs and identification of fields (Amount, Date, Vendor) using Tesseract OCR and RegEx.
+- **State Management:** SQLite database to track the lifecycle ("In Process" → "Approved" / "Rejected").
+- **Interactive Notifications:** HTML email delivery with functional buttons to approve or reject receipts directly.
+- **RESTful API:** Backend built with FastAPI to upload files and handle decision Webhooks.
+- **Audit:** Automatic recording of timestamps and justification comments.
 
------
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Instalación 📦
+### Built With
 
-En **PowerShell** (Windows) o Terminal:
+* [![Python][Python-shield]][Python-url]
+* [![FastAPI][FastAPI-shield]][FastAPI-url]
+* [![Tesseract][Tesseract-shield]][Tesseract-url]
+* [![SQLite][SQLite-shield]][SQLite-url]
+* [![SQLAlchemy][SQLAlchemy-shield]][SQLAlchemy-url]
 
-```powershell
-# 1) Clonar el repositorio
-# git clone https://github.com/<tu-usuario>/receipt-manager.git
-# cd receipt-manager
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# 2) Crear y activar entorno virtual (Recomendado)
-python -m venv venv
-.\venv\Scripts\Activate  # En Mac/Linux: source venv/bin/activate
+<!-- GETTING STARTED -->
+## Getting Started
 
-# 3) Instalar dependencias
-pip install -r requirements.txt
-```
+Follow these steps to set up the project locally.
 
------
+### Prerequisites
 
-## Configuración 🔧
+* **Python 3.8** or higher.
+* **Tesseract OCR:** Must be installed on the operating system.
+    - *Windows:* [Download installer here](https://github.com/UB-Mannheim/tesseract/wiki). **Important:** Select "Spanish" (spa) language in "Additional script data" during installation.
+* **Poppler for Windows:** Required to convert PDFs to images. Ensure the path matches `POPPLER_PATH` in `ocr_engine.py`.
+* **Gmail Account:** With a generated "App Password" for email sending.
 
-El proyecto utiliza `python-dotenv` para la seguridad. Crea un archivo `.env` en la raíz (basado en `.env.example`) y configura tus variables:
+### Installation
 
-| Variable | Descripción | Ejemplo |
+1. Clone the repo
+   ```sh
+   git clone https://github.com/jerichd4c/receipt-manager.git
+   ```
+2. Create and activate virtual environment
+   ```sh
+   python -m venv venv
+   .\venv\Scripts\Activate  # Windows: .\venv\Scripts\Activate, Linux/Mac: source venv/bin/activate
+   ```
+3. Install dependencies
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+### Configuration
+
+Create a `.env` file in the root (based on `.env.sample`) and configure your variables:
+
+| Variable | Description | Example |
 | :--- | :--- | :--- |
-| `DATABASE_URL` | Ruta de conexión a la BD | `sqlite:///./facturas.db` |
-| `SMTP_SERVER` | Servidor de correo | `smtp.gmail.com` |
-| `SENDER_EMAIL` | Tu correo (remitente) | `tucorreo@gmail.com` |
-| `SENDER_PASSWORD` | Contraseña de Aplicación (16 caracteres) | `abcd efgh ijkl mnop` |
-| `API_URL` | URL base donde corre la API | `http://localhost:8000` |
-| `EMAIL_GERENTE` | Correo que recibirá las solicitudes | `jefe@ejemplo.com` |
+| `DATABASE_URL` | DB connection string | `sqlite:///./receipts.db` |
+| `SMTP_SERVER` | Email server | `smtp.gmail.com` |
+| `SENDER_EMAIL` | Your email (sender) | `youremail@gmail.com` |
+| `SENDER_PASSWORD` | App Password (16 characters) | `abcd efgh ijkl mnop` |
+| `API_URL` | Base URL where the API runs | `http://localhost:8000` |
+| `EMAIL_GERENTE` | Email that will receive requests | `manager@example.com` |
 
------
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Puesta en marcha rápida 🚀
+<!-- USAGE EXAMPLES -->
+## Usage
 
-1.  **Iniciar el servidor (modo sencillo):**
-  Ejecuta el script preparado para levantar la API sin escribir comandos:
+1. **Start the server:**
+   ```sh
+   python run.py
+   ```
+2. **Access the interface:**
+   Open your browser at `http://127.0.0.1:8000/docs` to see the Swagger UI.
+3. **Full Flow:**
+    - Upload a receipt via `POST /api/upload`.
+    - Receive email notification with decision buttons.
+    - Click "Approve" or "Reject" and verify the state change in the database.
 
-  ```powershell
-  python run.py
-  ```
+_For more details on the architecture, check `ocr_engine.py` and `notifications.py` files._
 
-  Al abrirse el navegador en la raíz (`/`), verás un mensaje tipo:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-  ```text
-  API is running. Go to /docs to see the implementation.
-  ```
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
 
-  Desde ahí, navega manualmente a `/docs`.
+* [FastAPI](https://fastapi.tiangolo.com/) - Modern and fast backend.
+* [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Text recognition engine.
+* [SQLAlchemy](https://www.sqlalchemy.org/) - Robust database management.
+* [OpenCV](https://opencv.org/) - Image processing.
 
-2.  **Iniciar el servidor (modo clásico con uvicorn):**
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-  ```powershell
-  uvicorn main:app --reload
-  ```
-
-3.  **Acceder a la interfaz:**
-  Abre tu navegador en `http://127.0.0.1:8000/docs` (o el puerto configurado en `run.py`). Verás la interfaz automática (Swagger UI) para probar los endpoints.
-
-4.  **Probar el flujo completo:**
-
-    - Usa el endpoint `POST /api/upload` para subir una imagen de factura.
-    - Revisa la consola para ver la extracción de datos.
-    - Revisa tu correo: deberías recibir una notificación con botones.
-    - Haz clic en "Aprobar" o "Rechazar" en el correo y verifica el cambio en la base de datos.
-
------
-
-## Flujo de trabajo 🧭
-
-1.  **Ingesta:** El usuario sube un archivo (`.png`, `.jpg` o `.pdf`) a través de la API (`main.py`).
-2.  **Procesamiento (Módulo 1):** `ocr_engine.py` detecta si el archivo es imagen o PDF, convierte PDFs a imagen con `pdf2image` + Poppler, limpia la imagen con OpenCV y extrae texto con Tesseract. RegEx identifica los montos y fechas.
-3.  **Persistencia (Módulo 2):** Se guarda la factura en `facturas.db` con estado "En Proceso" (`database.py`).
-4.  **Notificación (Módulo 3):** `notifications.py` genera un email HTML con los datos y enlaces únicos hacia la API.
-5.  **Decisión (Módulo 4):** El usuario hace clic en el correo. La API recibe la señal (Webhook), actualiza el estado y registra la auditoría.
-
------
-
-## Estructura del proyecto 📁
-
-Cumpliendo con el diseño modular requerido:
-
-```text
-receipt-manager/
-├── uploads/                    # Almacenamiento temporal de imágenes
-├── .env                        # Credenciales (NO subir a Git)
-├── database.py                 # Modelos ORM y conexión a SQLite
-├── main.py                     # API FastAPI y orquestador del flujo
-├── run.py                      # Script para levantar la API con `python run.py`
-├── notifications.py            # Motor de envío de correos HTML
-├── ocr_engine.py               # Lógica de Visión Computacional, soporte PDF y NLP
-├── requirements.txt            # Lista de dependencias del proyecto
-└── facturas.db                 # Base de datos local (generada automáticamente)
-```
-
------
-
-## Solución de problemas 🧩
-
-  - **Error `TesseractNotFoundError`:** Asegúrate de haber instalado el programa `.exe` de Tesseract y, si es necesario, ajusta la ruta en `ocr_engine.py` (`tesseract_cmd`).
-  - **Error de Autenticación SMTP:** Verifica que estás usando una "Contraseña de Aplicación" de Google y no tu contraseña habitual. Asegúrate de que la Verificación en 2 pasos esté activa.
-  - **Botones del correo no funcionan:** Si el servidor no está corriendo (`uvicorn`), los enlaces darán error. Asegúrate de que `API_URL` en el `.env` coincida con la dirección de tu servidor local.
-
------
-
-## Notas de seguridad 🔒
-
-  - El archivo `.env` está incluido en `.gitignore` para proteger las credenciales de correo.
-  - La base de datos `facturas.db` y la carpeta `uploads/` también son ignoradas para no compartir datos de prueba sensibles.
-
------
-
-## Créditos 🙌
-
-  - [FastAPI](https://fastapi.tiangolo.com/) para el backend moderno y veloz.
-  - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) para el motor de reconocimiento de texto.
-  - [SQLAlchemy](https://www.sqlalchemy.org/) para el manejo robusto de base de datos.
+<!-- MARKDOWN LINKS & IMAGES -->
+[Python-shield]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
+[Python-url]: https://www.python.org/
+[FastAPI-shield]: https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi
+[FastAPI-url]: https://fastapi.tiangolo.com/
+[Tesseract-shield]: https://img.shields.io/badge/Tesseract-OCR-blue?style=for-the-badge
+[Tesseract-url]: https://github.com/tesseract-ocr/tesseract
+[SQLite-shield]: https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white
+[SQLite-url]: https://www.sqlite.org/
+[SQLAlchemy-shield]: https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white
+[SQLAlchemy-url]: https://www.sqlalchemy.org/
