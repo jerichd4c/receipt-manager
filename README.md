@@ -1,7 +1,7 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
 
-<h3 align="center">Intelligent Receipt Management System 🧾</h3>
+<h3 align="center">Intelligent Receipt Management System </h3>
 
   <p align="center">
     AI and automation application that processes digital receipts (images and PDFs), extracts key data via OCR, manages states in a database, and coordinates approval flows through interactive emails.
